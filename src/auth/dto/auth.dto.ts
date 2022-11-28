@@ -22,3 +22,9 @@ export class SignUpBodyDto {
     @IsNotEmpty()
     password: string;
 }
+
+export interface SignUpSignInAuthService {
+    flag: boolean;
+    message: string;
+    token?: string;
+}

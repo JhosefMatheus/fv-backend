@@ -11,16 +11,16 @@ export class AuthController {
     async signUp(@Body() body: SignUpBodyDto, @Res() response: Response): Promise<Response> {
         const { fullName, email, login, password } = body;
 
-        const signUpResult = await this.authService.signUp(fullName, email, login, password);
+        const { flag, message } = await this.authService.signUp(fullName, email, login, password);
 
-        if (signUpResult) {
+        if (flag) {
             return response.status(200).json({
-                "message": "Usuário criado com sucesso!"
+                message: message
             });
         }
 
         return response.status(401).json({
-            "message": "Login ou email já estão sendo usados."
+            message: message
         });
     }
     
@@ -28,16 +28,17 @@ export class AuthController {
     async signIn(@Body() body: SignInBodyDto, @Res() response: Response): Promise<Response> {
         const { login, password } = body;
 
-        const singInResult = await this.authService.signIn(login, password);
+        const { flag, message ,token } = await this.authService.signIn(login, password);
 
-        if (singInResult) {
+        if (flag) {
             return response.status(200).json({
-                "message": "Usuário logado com sucesso!"
+                message: message,
+                token: token
             });
         }
 
         return response.status(401).json({
-            "message": "Login ou senha inválidos."
+            message: message
         });
     }
 }
